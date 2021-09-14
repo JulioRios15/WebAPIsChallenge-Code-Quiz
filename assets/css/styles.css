@@ -1,0 +1,19 @@
+:root{
+
+}
+
+
+body{
+    width: 50%;
+    margin: auto;
+}
+
+.header{
+    display: flex;
+    justify-content: space-between;
+}
+
+.start-btn{
+    padding: .5rem;
+    margin: 1rem;;
+}
