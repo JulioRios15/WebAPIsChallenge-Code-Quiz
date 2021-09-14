@@ -1,16 +1,19 @@
-import {createMenu} from './elements/quizMenu.js';
+import { startQuiz } from './quiz/quiz.js';
+import { createQuizMenu, removeQuizMenu } from './elements/quizMenu.js';
+import { createQuizHeader } from './elements/quizHeader.js';
 
 var body = document.body;
 
 var header = document.getElementById('header');
 var content = document.getElementById('content');
 
-
-var quizMenu = createMenu(function(){
-    //TODO: Start Quiz
+createQuizHeader(header);
+createQuizMenu(content, ()=> {
+    // callback when start quiz button is clicked
+    removeQuizMenu();
+    startQuiz();
 });
 
-content.appendChild(quizMenu);
 
 
 

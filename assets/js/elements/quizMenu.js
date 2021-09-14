@@ -1,9 +1,12 @@
-export const createMenu = (startButtonCallback) => {
+export const createQuizMenu = (childToAppend, startButtonCallback) => {
     //create main elements
-    var divEl = document.createElement('div');
+    var quizMenuContainerEl = document.createElement('div');
     var h1El = document.createElement("h1");
     var pEl = document. createElement("p");
     var btnEl = document.createElement("button");
+
+    //asign id to QuizMenu
+    quizMenuContainerEl.id = "quiz-menu";
 
     //Define text content
     h1El.textContent = "Coding Quiz Challenge";
@@ -13,20 +16,28 @@ export const createMenu = (startButtonCallback) => {
     btnEl.textContent = "Start Quiz";
 
     //Styles
-    divEl.setAttribute('style', `
+    quizMenuContainerEl.setAttribute('style', `
     padding: 1rem;
     text-align: center;
     `);
     
     
     //Appending Elements
-    divEl.appendChild(h1El);
-    divEl.appendChild(h1El);
-    divEl.appendChild(pEl);
-    divEl.appendChild(btnEl);
+    quizMenuContainerEl.appendChild(h1El);
+    quizMenuContainerEl.appendChild(h1El);
+    quizMenuContainerEl.appendChild(pEl);
+    quizMenuContainerEl.appendChild(btnEl);
 
     //binding
     btnEl.addEventListener("click", startButtonCallback);
 
-    return divEl;
+    //
+    childToAppend.appendChild(quizMenuContainerEl);
+}
+
+export const removeQuizMenu = () => {
+    const content = document.getElementById('content');
+    const quizMenu = document.getElementById("quiz-menu");
+
+    content.removeChild(quizMenu);
 }
