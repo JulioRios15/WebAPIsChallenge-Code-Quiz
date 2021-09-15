@@ -10,7 +10,7 @@ const quizQuestions = [
         correctAnswer: "b"
     },
     {
-        question: "Who is the matufacturer of the A321 Aircraft",
+        question: "Who is the matufacturer of the A321 Aircraft?",
         answers: {
             a: "Boeing",
             b: "Mc Donald Doughlas",

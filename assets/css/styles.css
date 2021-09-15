@@ -14,6 +14,12 @@
 
 h1{
     font-size: 2.5rem;
+    font-weight: 600;
+}
+
+h2{
+    font-size: 1.7rem;
+    font-weight: 600;
 }
 
 p{
@@ -30,6 +36,8 @@ body{
     margin: auto;
     width: 60%;
 }
+
+/*-----------------------------------------------header--------------------------------------------*/
 
 #quiz-header{
     display: flex;
@@ -55,17 +63,16 @@ body{
     color: var(--dark);
 }
 
+/*-----------------------------------------------------quiz menu-----------------------------------*/
 #quiz-menu {
     padding: .5rem;
     text-align: center;
-}
-#quiz-menu::content {
-    margin: 1rem 0;
 }
 
 #quiz-menu button{
     font-size: 1.2rem;
     padding: .5rem 2rem;
+    margin-top: 1rem;
     border-radius: 10px;
     color: var(--beige);
     background-color: var(--primary);
@@ -74,6 +81,44 @@ body{
     background-color: var(--primary-hover);
     cursor: pointer;
 }
+
+/*--------------------------------------------------------quiz questions---------------------------*/
+
+#quiz-question-container{
+    padding: .5rem;
+    text-align: center;
+}
+#quiz-question-container h2{
+    text-align: left;
+    height: 80px;
+}
+
+#quiz-question-container ul{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+}
+
+#quiz-question-container li{
+    display: flex;
+    padding: .5rem;
+    margin: .5rem;
+    width: 20rem;
+    height: 2rem;
+    text-align: center;
+    align-items: center;
+    justify-content: center;
+    border-radius: 7px; 
+
+    color: var(--beige);
+    background-color: var(--primary);
+}
+#quiz-question-container li:hover{
+    cursor: pointer;
+    background-color: var(--primary-hover);
+}
+
+
 
 
  /* @media only screen and (max-width: 800px){

@@ -4,6 +4,7 @@ const createLiEls = (answersMap, answerCallback) => {
     answersMap.forEach(item => {
         var liEl = document.createElement('li');
         liEl.textContent = item;
+        liEl.id = 'question-li';
         liEl.onclick = answerCallback;
 
         liEls.push(liEl);
@@ -18,7 +19,7 @@ export const createQuizQuestionWithChoices = (childToAppend,question, answers, a
 
     //create main elements
     var quizQuestionContainer = document.createElement('div');
-    var questionEl = document.createElement('p');
+    var questionEl = document.createElement('h2');
     var ulEl = document.createElement('ul');
     var answersLiEls = createLiEls(answersMap, answerCallback);
 
