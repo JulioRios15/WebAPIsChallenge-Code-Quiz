@@ -8,6 +8,7 @@ export const createQuizHeader = (childToAppend)=> {
     
     //set quiz header id
     quizHeaderContainerEl.id = "quiz-header";
+    highScoreEl.id = "view-high-score";
     timerEl.id = "timer";
 
     //set elemetn text context
@@ -21,18 +22,22 @@ export const createQuizHeader = (childToAppend)=> {
     childToAppend.appendChild(quizHeaderContainerEl);
 
     //styles
-    quizHeaderContainerEl.setAttribute('style', `
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
-        padding: 1rem;
-    `);
+    // quizHeaderContainerEl.setAttribute('style', `
+    //     display: flex;
+    //     justify-content: space-between;
+    //     align-items: center;
+    //     width: 100%;
+    //     padding: 1rem;
+    // `);
 
-    highScoreEl.setAttribute('style', `
-        color: purple; 
-        padding: .5rem;
-    `);
+    // highScoreEl.setAttribute('style', `
+    //     color: purple; 
+    //     padding: .5rem;
+    // `);
+
+    // timerEl.setAttribute('style', `
+    //     padding: .5rem;
+    // `);
 
 
 }

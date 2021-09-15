@@ -20,6 +20,18 @@ export const createQuizMenu = (childToAppend, startButtonCallback) => {
     padding: 1rem;
     text-align: center;
     `);
+    h1El.setAttribute('style', `
+        font-size: 2.5rem;
+    `);
+    pEl.setAttribute('style', `
+        font-size: 1.2rem;
+    `);
+    btnEl.setAttribute('style', `
+        font-size: 1.2rem;
+        padding: .5rem 2rem;
+        color: white;
+        border-radius: 10px;
+    `);
     
     
     //Appending Elements
