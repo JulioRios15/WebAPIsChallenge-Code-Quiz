@@ -19,4 +19,45 @@ const quizQuestions = [
         },
         correctAnswer: "c"
     },
+    {
+        question: "What does FAA stand for?",
+        answers: {
+            a: "Federal Avionics Administration",
+            b: "Federal Aeronatics Administration",
+            c: "Fedex Aircraft Administration",
+            d: "Federal Aviation Administration",
+        },
+        correctAnswer: "d"
+    },
+    {
+        question: "Altitude in aviation in measured in?",
+        answers: {
+            a: "Feet",
+            b: "Meters",
+            c: "Kilometers",
+            d: "Centimeters",
+        },
+        correctAnswer: "a"
+    },
+
 ]
+
+export const getQuizQuestions = () => quizQuestions;
+
+export const getQuestionAtIndex = (index) => quizQuestions[index];
+
+export const getCorrectAnswerAtIndex = (index) => {
+    const question = getQuestionAtIndex(index);
+
+    switch (question.correctAnswer) {
+        case 'a':
+            return question.answers.a;    
+        case 'b':
+            return question.answers.b;    
+        case 'c':
+            return question.answers.c;    
+        case 'd':
+            return question.answers.d;    
+    }
+
+}

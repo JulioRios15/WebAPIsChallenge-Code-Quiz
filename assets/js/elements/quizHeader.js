@@ -1,4 +1,4 @@
-import {getCurrentTime} from "../quiz/quiz.js";
+import { getCurrentTime } from "../quiz/quiz.js";
 
 export const createQuizHeader = (childToAppend)=> {
     //create main elements
@@ -24,6 +24,7 @@ export const createQuizHeader = (childToAppend)=> {
     quizHeaderContainerEl.setAttribute('style', `
         display: flex;
         justify-content: space-between;
+        align-items: center;
         width: 100%;
         padding: 1rem;
     `);

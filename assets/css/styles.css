@@ -7,13 +7,17 @@ body{
     margin: auto;
 }
 
-.header{
-    display: flex;
-    justify-content: space-between;
-}
 
 .content{
-    padding: 0 10rem;
+    padding: 0 6rem;
 }
+
+ /* @media only screen and (max-width: 800px){
+    .content{
+        padding: 0 2rem;
+        width: 100%;
+        background-color: red;
+    }
+}  */
 
 

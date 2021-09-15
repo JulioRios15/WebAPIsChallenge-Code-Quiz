@@ -8,7 +8,7 @@ var header = document.getElementById('header');
 var content = document.getElementById('content');
 
 createQuizHeader(header);
-createQuizMenu(content, ()=> {
+createQuizMenu(content, () => {
     // callback when start quiz button is clicked
     removeQuizMenu();
     startQuiz();
