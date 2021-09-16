@@ -18,27 +18,37 @@ export const createQuizQuestionWithChoices = (childToAppend,question, answers, a
     const answersMap = new Map(Object.entries(answers));
 
     //create main elements
-    var quizQuestionContainer = document.createElement('div');
+    var quizQuestionContainerEl = document.createElement('div');
     var questionEl = document.createElement('h2');
     var ulEl = document.createElement('ul');
     var answersLiEls = createLiEls(answersMap, answerCallback);
 
 
     //setting ids
-    quizQuestionContainer.id = "quiz-question-container";
+    quizQuestionContainerEl.id = "quiz-question-container";
 
     //setting text context
     questionEl.textContent = question;
 
-    //Styles
-
     //Appending elements
-    quizQuestionContainer.appendChild(questionEl);
-    quizQuestionContainer.appendChild(ulEl);
+    quizQuestionContainerEl.appendChild(questionEl);
+    quizQuestionContainerEl.appendChild(ulEl);
     answersLiEls.forEach(item => {
         ulEl.appendChild(item);
     });
 
 
-    childToAppend.appendChild(quizQuestionContainer);  
+    childToAppend.appendChild(quizQuestionContainerEl);  
+}
+
+export const createAnswerNotification = (chidToAppend, text) => {
+    var answerNotificationContainerEl = document.createElement('div');
+    var pEl = document.createElement('p');
+
+    answerNotificationContainerEl.id = 'answer-notification';
+
+    pEl.textContent = text;
+
+    answerNotificationContainerEl.appendChild(pEl);
+    chidToAppend.appendChild(answerNotificationContainerEl);
 }

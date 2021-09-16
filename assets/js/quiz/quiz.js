@@ -1,6 +1,6 @@
 import { createQuizHeader } from '../elements/quizHeader.js';
 import { createQuizMenu, removeQuizMenu } from '../elements/quizMenu.js';
-import { createQuizQuestionWithChoices } from '../elements/quizContent.js';
+import { createQuizQuestionWithChoices, createAnswerNotification } from '../elements/quizContent.js';
 import { getQuizQuestions, getQuestionAtIndex, getCorrectAnswerAtIndex} from '../quiz/quizData.js';
 
 
@@ -55,7 +55,10 @@ const quizData = getQuizQuestions();
 const numOfQuestions = quizData.length;
 var questionIndex = 0;
 
+var bCanAnswer = true;
+var answerNotificationIntervalId;
 
+// called when user pressed any answer option
 const validateQuestion = (e) => {
     const choice = e.target.innerHTML;
     const correctAnswer = getCorrectAnswerAtIndex(questionIndex);
@@ -63,16 +66,14 @@ const validateQuestion = (e) => {
     (choice === correctAnswer)? handleCorrectAnswer() : handleIncorretAnswer();  
 }
 
-const handleCorrectAnswer = () => {
-    nextQuestion();
+const handleCorrectAnswer = async () => {
+    showAnswerNotification('Correct');
 }
 
-const handleIncorretAnswer = () => {
+const handleIncorretAnswer = async () => {
     updateTime(10);
-    nextQuestion();
+    showAnswerNotification('Wrong!');
 }
-
-
 
 const createQuizQuestion = () => {
     //get Current question
@@ -105,19 +106,50 @@ const nextQuestion = () => {
     }
 }
 
+const showAnswerNotification = (text) => {
+    const content = document.getElementById('content');
+    const question = document.getElementById('quiz-question-container');
+
+    if (question) createAnswerNotification(content, text);
+
+    answerNotificationIntervalId = setTimeout(()=> {
+        removeAnswerNotification();
+        nextQuestion();
+    }, 1000);
+}
+
+const removeAnswerNotification = () => {
+    const content = document.getElementById('content');
+    const answerNotification = document.getElementById('answer-notification');
+
+    content.removeChild(answerNotification);
+}
+
 // called when the last question is answered
 const handleQuizEnd = () => {
     clearTimer();
 }
 
 
+/*------------------------------------High Scores-------------------------------------------------*/
 
-/*------------------------------------Quiz Main--------------------------------------------------*/
+const saveHighScore = () => {
+
+}
+
+const clearHighScores = () => {
+
+}
+
+
+
+/*------------------------------------Quiz Main---------------------------------------------------*/
 
 
 const initialize = () => {
-    resetTime();
     questionIndex = 0;
+
+    resetTime();
     updateTimerEl();
     createQuizQuestion();
 }
@@ -127,4 +159,8 @@ export const startQuiz = () => {
     const header = document.getElementById('header');
     initialize();
     startTimer();
+}
+
+const restartQuiz = () => {
+    location.reload();
 }
