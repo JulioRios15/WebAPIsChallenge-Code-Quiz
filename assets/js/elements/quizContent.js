@@ -41,13 +41,23 @@ export const createQuizQuestionWithChoices = (childToAppend,question, answers, a
     childToAppend.appendChild(quizQuestionContainerEl);  
 }
 
-export const createAnswerNotification = (chidToAppend, text) => {
+export const createAnswerNotification = (chidToAppend, text, color) => {
     var answerNotificationContainerEl = document.createElement('div');
     var pEl = document.createElement('p');
 
     answerNotificationContainerEl.id = 'answer-notification';
 
     pEl.textContent = text;
+
+    // answerNotificationContainerEl.setAttribute('style', `
+    //     background-color: var(--success);
+    // `);
+
+    pEl.setAttribute('style', `
+        font-size: 1.6rem;
+        font-weight: 500;
+        color: var(--${color});
+    `);
 
     answerNotificationContainerEl.appendChild(pEl);
     chidToAppend.appendChild(answerNotificationContainerEl);

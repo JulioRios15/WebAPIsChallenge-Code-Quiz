@@ -2,12 +2,12 @@ import { createQuizHeader } from '../elements/quizHeader.js';
 import { createQuizMenu, removeQuizMenu } from '../elements/quizMenu.js';
 import { createQuizQuestionWithChoices, createAnswerNotification } from '../elements/quizContent.js';
 import { getQuizQuestions, getQuestionAtIndex, getCorrectAnswerAtIndex} from '../quiz/quizData.js';
-
+import {createHighScoreForm, createHighScoreList} from '../elements/highScores.js';
 
 
 /*--------------------------------------Time Handling--------------------------------------------*/
 let currentTime = 0;
-const quizTime = 60;
+const quizTime = 20;
 
 export const getCurrentTime = () => currentTime;
 
@@ -45,7 +45,9 @@ const clearTimer = ()=> {
     
 }
 
+//called when time reaches 0
 const handleTimerEnd = () => {
+    console.log('handle timer end');
     clearTimer();
 }
 
@@ -54,25 +56,33 @@ const handleTimerEnd = () => {
 const quizData = getQuizQuestions();
 const numOfQuestions = quizData.length;
 var questionIndex = 0;
-
+var correctAnswers = 0;
 var bCanAnswer = true;
 var answerNotificationIntervalId;
 
+const lastQuestion = () => (questionIndex === numOfQuestions -1) ? true : false
+
 // called when user pressed any answer option
 const validateQuestion = (e) => {
+    if(!bCanAnswer) return;
+
+    bCanAnswer = false;
+
+    if(lastQuestion()) clearTimer();
+
     const choice = e.target.innerHTML;
     const correctAnswer = getCorrectAnswerAtIndex(questionIndex);
-
     (choice === correctAnswer)? handleCorrectAnswer() : handleIncorretAnswer();  
 }
 
 const handleCorrectAnswer = async () => {
-    showAnswerNotification('Correct');
+    correctAnswers++;
+    showAnswerNotification('Correct', 'success');
 }
 
 const handleIncorretAnswer = async () => {
     updateTime(10);
-    showAnswerNotification('Wrong!');
+    showAnswerNotification('Wrong!', 'danger');
 }
 
 const createQuizQuestion = () => {
@@ -97,8 +107,9 @@ const removeQuizQuestion = () => {
 const nextQuestion = () => {
     removeQuizQuestion();
 
-    if(questionIndex < numOfQuestions -1) {
+    if(questionIndex < numOfQuestions -1 && currentTime != 0) {
         questionIndex++;
+        bCanAnswer = true;
         createQuizQuestion();
 
     }else{
@@ -106,16 +117,16 @@ const nextQuestion = () => {
     }
 }
 
-const showAnswerNotification = (text) => {
+const showAnswerNotification = (text, color) => {
     const content = document.getElementById('content');
     const question = document.getElementById('quiz-question-container');
 
-    if (question) createAnswerNotification(content, text);
+    if (question) createAnswerNotification(content, text, color);
 
     answerNotificationIntervalId = setTimeout(()=> {
         removeAnswerNotification();
         nextQuestion();
-    }, 1000);
+    }, 600);
 }
 
 const removeAnswerNotification = () => {
@@ -128,18 +139,48 @@ const removeAnswerNotification = () => {
 // called when the last question is answered
 const handleQuizEnd = () => {
     clearTimer();
+    showHighScoreForm();
+    
 }
 
 
 /*------------------------------------High Scores-------------------------------------------------*/
+//called on submit button pressed
+const saveHighScore = (username, score) => {
+    const records = getLocalStoredHighScores();
+    const userRecord = {"username": username, "score": score};
 
-const saveHighScore = () => {
-
+    if(records != null){
+        const newRecords = [...records, userRecord];
+        localStorage.setItem('high-scores',JSON.stringify(newRecords));
+    }else{
+        localStorage.setItem('high-scores', JSON.stringify([userRecord]));
+    }
 }
 
 const clearHighScores = () => {
 
 }
+
+const getLocalStoredHighScores = () => {
+    return JSON.parse(localStorage.getItem("high-scores"));
+}
+
+const showHighScoreForm = () => {
+    createHighScoreForm(document.getElementById('content'), calculateScore(), saveHighScore);
+}
+
+const removeHighScoreForm = () => {
+    const content = document.getElementById('content');
+    const form = document.getElementById('high-score-form-container');
+
+    content.removeChild(form);
+}
+
+const calculateScore  = () => {
+    return currentTime * correctAnswers;
+}
+
 
 
 
@@ -148,6 +189,7 @@ const clearHighScores = () => {
 
 const initialize = () => {
     questionIndex = 0;
+    correctAnswers = 0;
 
     resetTime();
     updateTimerEl();

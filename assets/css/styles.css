@@ -124,8 +124,9 @@ body{
 #answer-notification{
     margin-top: 1rem;
     border-top: 2px solid var(--dark);
-    font-size: 1.5rem;
 }
+
+/*----------------------------------------------High Scores----------------------------------------*/
 
 
 
