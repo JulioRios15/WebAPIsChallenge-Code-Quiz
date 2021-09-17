@@ -7,7 +7,7 @@ import {createHighScoreForm, createHighScoreList} from '../elements/highScores.j
 
 /*--------------------------------------Time Handling--------------------------------------------*/
 let currentTime = 0;
-const quizTime = 20;
+const quizTime = 5;
 
 export const getCurrentTime = () => currentTime;
 
@@ -24,6 +24,7 @@ const updateTime = (qty = 1) => {
     }else{
         currentTime = 0;
         handleTimerEnd();
+        handleQuizEnd();
     }
 
     updateTimerEl();
@@ -139,8 +140,8 @@ const removeAnswerNotification = () => {
 // called when the last question is answered
 const handleQuizEnd = () => {
     clearTimer();
-    showHighScoreForm();
-    
+    removeQuizQuestion();
+    showHighScoreForm(); 
 }
 
 
@@ -156,6 +157,8 @@ const saveHighScore = (username, score) => {
     }else{
         localStorage.setItem('high-scores', JSON.stringify([userRecord]));
     }
+    //remove HighScoreForm after saving
+    removeHighScoreForm();
 }
 
 const clearHighScores = () => {
