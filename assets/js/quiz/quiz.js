@@ -4,10 +4,20 @@ import { createQuizQuestionWithChoices, createAnswerNotification } from '../elem
 import { getQuizQuestions, getQuestionAtIndex, getCorrectAnswerAtIndex} from '../quiz/quizData.js';
 import {createHighScoreForm, createHighScoreList} from '../elements/highScores.js';
 
+import {
+    getContent,
+    getHighScoreForm,
+    getHighScoreList,
+    getQuizQuestion,
+    getAnswerNotification,
+    getQuizMenu,
+    getQuizHeader
+} from '../elements/elementsHelpers.js';
+
 
 /*--------------------------------------Time Handling--------------------------------------------*/
 let currentTime = 0;
-const quizTime = 5;
+const quizTime = 60;
 
 export const getCurrentTime = () => currentTime;
 
@@ -91,7 +101,7 @@ const createQuizQuestion = () => {
     const currentQuestion = getQuestionAtIndex(questionIndex);
 
     createQuizQuestionWithChoices(
-        document.getElementById('content'),
+        getContent(),
         currentQuestion.question, 
         currentQuestion.answers, 
         validateQuestion
@@ -99,10 +109,14 @@ const createQuizQuestion = () => {
 }
 
 const removeQuizQuestion = () => {
-    const content = document.getElementById('content');
-    const question = document.getElementById('quiz-question-container');
+    const content = getContent();
+    const question = getQuizQuestions();
 
-    content.removeChild(question);
+    if(content && question) {
+        content.removeChild(question);   
+    };
+
+    
 }
 
 const nextQuestion = () => {
@@ -119,10 +133,10 @@ const nextQuestion = () => {
 }
 
 const showAnswerNotification = (text, color) => {
-    const content = document.getElementById('content');
-    const question = document.getElementById('quiz-question-container');
+    const content = getContent();
+    const question = getQuizQuestion();
 
-    if (question) createAnswerNotification(content, text, color);
+    if (question && content) createAnswerNotification(content, text, color);
 
     answerNotificationIntervalId = setTimeout(()=> {
         removeAnswerNotification();
@@ -131,10 +145,12 @@ const showAnswerNotification = (text, color) => {
 }
 
 const removeAnswerNotification = () => {
-    const content = document.getElementById('content');
-    const answerNotification = document.getElementById('answer-notification');
+    const content = getContent();
+    const answerNotification = getAnswerNotification();
 
-    content.removeChild(answerNotification);
+    if(content && answerNotification){
+        content.removeChild(answerNotification);
+    }    
 }
 
 // called when the last question is answered
@@ -165,19 +181,25 @@ const clearHighScores = () => {
 
 }
 
+const clearLocalStoredHighScores = () => {
+    localStorage.removeItem('high-scores');
+}
+
 const getLocalStoredHighScores = () => {
     return JSON.parse(localStorage.getItem("high-scores"));
 }
 
 const showHighScoreForm = () => {
-    createHighScoreForm(document.getElementById('content'), calculateScore(), saveHighScore);
+    createHighScoreForm(getContent(), calculateScore(), saveHighScore);
 }
 
 const removeHighScoreForm = () => {
-    const content = document.getElementById('content');
-    const form = document.getElementById('high-score-form-container');
+    const content = getContent();
+    const form = getHighScoreForm();
 
-    content.removeChild(form);
+    if(content && form){
+        content.removeChild(form);
+    }   
 }
 
 const calculateScore  = () => {
