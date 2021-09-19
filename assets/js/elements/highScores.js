@@ -1,4 +1,4 @@
-import {getHighScoreListUl, getHighScoreList} from './elementsHelpers.js';
+import {getHighScoreListUl, getHeader} from './elementsHelpers.js';
 
 export const createHighScoreForm = (childToAppend, score, submitCallback) => {
     var highScoreFormContainerEl = document.createElement('div');
@@ -21,6 +21,13 @@ export const createHighScoreForm = (childToAppend, score, submitCallback) => {
         submitCallback(inputEl.value, score);
     }
 
+    inputEl.addEventListener('keyup', ()=> {
+        if(event.keyCode === 13){
+            event.preventDefault();
+            submitBtnEl.click();
+        }
+    })
+
 
     //appending
     highScoreFormContainerEl.appendChild(h2El);
@@ -37,18 +44,24 @@ export const createHighScoreForm = (childToAppend, score, submitCallback) => {
 const createHighScoreLis = () => {
     var liEls = [];
     const highScores = JSON.parse(localStorage.getItem('high-scores')); 
+    const liID = "high-score-li";
 
     if(highScores){
-        
+        highScores.forEach(item => {
+            var liEl = document.createElement('li');
+            liEl.textContent = `${item.username} - ${item.score}`;
+            liEl.id = liID;
+    
+            liEls.push(liEl);
+        });
+    }else{
+        var liEl = document.createElement('li');
+            liEl.textContent = "No high scores have been saved yet";
+            liEl.id = liID;
+            liEls.push(liEl);
     }
 
-    highScores.forEach(item => {
-        var liEl = document.createElement('li');
-        liEl.textContent = `${item.username} - ${item.score}`;
-        liEl.id = 'high-score-li';
 
-        liEls.push(liEl);
-    });
 
     return liEls;    
 }
@@ -101,7 +114,7 @@ export const rerenderHighScoreList = () => {
     ulEl.innerHTML = "";
 
      var emptyListEl = document.createElement('li');
-     emptyListEl.textContent = "Empty!";
+     emptyListEl.textContent = "Cleared";
      emptyListEl.setAttribute('style', "text-align: center;")
 
     ulEl.appendChild(emptyListEl);
