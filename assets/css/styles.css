@@ -7,6 +7,8 @@
     --success: #84C69B;
     --beige: #FFEDDA;
     --dark: #303841;
+    --body: rgb(236, 236, 236);
+    --body-darker : rgb(221, 220, 220);
 }
 *{
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -29,7 +31,7 @@ p{
 body{
     width: 100%;
     margin: auto;
-    background-color: rgb(236, 236, 236);
+    background-color: var(--body);
 }
 
 .content{
@@ -37,7 +39,7 @@ body{
     margin: auto;
     width: 60%;
     text-align: center;
-}
+}   
 
 /*-----------------------------------------------header--------------------------------------------*/
 
@@ -69,6 +71,7 @@ body{
 #quiz-menu {
     padding: .5rem;
     text-align: center;
+    margin-bottom: 5rem;
 }
 
 #quiz-menu button{
@@ -91,11 +94,12 @@ body{
     text-align: center;
     display: flex;
     flex-direction: column;
+    left: 50%;
 }
 #quiz-question-container h2{
     text-align: left;
     height: 10px;
-    padding: 1rem 0;
+    padding: 2rem 0;
 }
 
 #quiz-question-container ul{
@@ -127,9 +131,117 @@ body{
     border-top: 2px solid var(--dark);
 }
 
-/*----------------------------------------------High Scores----------------------------------------*/
+/*----------------------------------------------High Score Form------------------------------------*/
+
+#high-score-form-container{
+    text-align: center;
+    align-self: center;
+    justify-content: center;
+    width: 28rem;
+    height: 18rem;
+    padding: 1rem;
+    margin: auto;
+    border-radius: 1rem;
+    background-color: var(--body-darker);
+}
+
+#high-score-form-container p{
+    
+}
+
+#form-container{
+    display: flex;
+    flex-direction: column;
+    font-size: 1.2rem;
+    margin: .5rem;
+}
+
+#form-container label{
+    padding: .5rem 1rem;
+    font-size: 1.2rem;
+    text-align: left;
+    border-top: 1px solid var(--dark);
+}
+#form-container input{
+    padding: .5rem 1rem;
+    margin: .5rem;
+    font-size: 1.2rem;
+    border-radius: 7px;
+}
+#form-container button{
+    font-size: 1.2rem;
+    padding: .5rem 1rem;
+    margin: .5rem;
+    border: none;
+    border-radius: 7px;
+    background-color: var(--primary);
+    color: white;
+}
+
+#form-container button:hover{
+    background-color: var(--primary-hover);
+}
+
+/*----------------------------------------------High Score List------------------------------------*/
+
+#high-score-list-container{
+    position: relative;
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    align-self: center;
+    justify-content: center;
+    width: 28rem;
+    height: 30rem;
+    padding: 1rem;
+    margin: auto;
+    border-radius: 1rem;
+    background-color: var(--body-darker);
+}
+
+#high-score-list-container h2{
+    font-size: 2rem;
+    padding: 0;
+    margin: 0;
+}
+
+#high-score-list-ul{
+    list-style: none;
+    padding: 0;
+    overflow: auto;
+}
+#high-score-list-ul li{
+    text-align: left;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
 
 
+    background-color: var(--seccondary);
+    margin: .5rem;
+    padding: .5rem;
+    border-radius: 7px;
+}
+
+#high-score-btn-container{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+}
+
+#high-score-list-container button{
+    padding: .5rem 1rem;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 7px;
+    margin: .5rem;
+    background-color: var(--primary);
+    color: white;
+}
+#high-score-list-container button:hover{
+    background-color: var(--primary-hover);
+}
 
 
  /* @media only screen and (max-width: 800px){

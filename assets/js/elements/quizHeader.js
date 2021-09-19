@@ -1,6 +1,6 @@
 import { getCurrentTime } from "../quiz/quiz.js";
 
-export const createQuizHeader = (childToAppend)=> {
+export const createQuizHeader = (childToAppend, viewHighScoreCallback)=> {
     //create main elements
     var quizHeaderContainerEl = document.createElement('div');  
     var highScoreEl = document.createElement('p');
@@ -14,6 +14,9 @@ export const createQuizHeader = (childToAppend)=> {
     //set elemetn text context
     highScoreEl.textContent = "View High Scores";
     timerEl.textContent = `Time: ${getCurrentTime()}`;
+
+    //on click
+    highScoreEl.onclick = viewHighScoreCallback;
 
     //appending elements
     quizHeaderContainerEl.appendChild(highScoreEl);

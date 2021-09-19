@@ -2,6 +2,10 @@ export const getContent = ()=> {
     const element = document.getElementById('content');
     return (element)? element : null;
 }
+export const getHeader = ()=> {
+    const element = document.getElementById('header');
+    return (element)? element : null;
+}
 
 export const getHighScoreForm = ()=>{
     const element = document.getElementById('high-score-form-container');
@@ -10,6 +14,11 @@ export const getHighScoreForm = ()=>{
 
 export const getHighScoreList = ()=>{
     const element = document.getElementById('high-score-list-container');
+    return (element)? element : null;
+}
+
+export const getHighScoreListUl = () => {
+    const element = document.getElementById('high-score-list-ul');
     return (element)? element : null;
 }
 

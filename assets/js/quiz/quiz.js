@@ -2,10 +2,11 @@ import { createQuizHeader } from '../elements/quizHeader.js';
 import { createQuizMenu, removeQuizMenu } from '../elements/quizMenu.js';
 import { createQuizQuestionWithChoices, createAnswerNotification } from '../elements/quizContent.js';
 import { getQuizQuestions, getQuestionAtIndex, getCorrectAnswerAtIndex} from '../quiz/quizData.js';
-import {createHighScoreForm, createHighScoreList} from '../elements/highScores.js';
+import {createHighScoreForm, createHighScoreList, rerenderHighScoreList} from '../elements/highScores.js';
 
 import {
     getContent,
+    getHeader,
     getHighScoreForm,
     getHighScoreList,
     getQuizQuestion,
@@ -69,6 +70,8 @@ const numOfQuestions = quizData.length;
 var questionIndex = 0;
 var correctAnswers = 0;
 var bCanAnswer = true;
+var bquizEnded = false;
+var bHighScoreDisplayed = false;
 var answerNotificationIntervalId;
 
 const lastQuestion = () => (questionIndex === numOfQuestions -1) ? true : false
@@ -110,13 +113,11 @@ const createQuizQuestion = () => {
 
 const removeQuizQuestion = () => {
     const content = getContent();
-    const question = getQuizQuestions();
+    const question = getQuizQuestion();
 
     if(content && question) {
         content.removeChild(question);   
-    };
-
-    
+    };    
 }
 
 const nextQuestion = () => {
@@ -155,30 +156,46 @@ const removeAnswerNotification = () => {
 
 // called when the last question is answered
 const handleQuizEnd = () => {
-    clearTimer();
-    removeQuizQuestion();
-    showHighScoreForm(); 
+    if(!bquizEnded){
+        clearTimer();
+        removeQuizQuestion();
+        showHighScoreForm(); 
+    }
+    bquizEnded = true;
 }
 
 
 /*------------------------------------High Scores-------------------------------------------------*/
 //called on submit button pressed
 const saveHighScore = (username, score) => {
+
     const records = getLocalStoredHighScores();
     const userRecord = {"username": username, "score": score};
 
+    if(userRecord.username === ""){
+        alert("please enter a username!");
+        return;
+    }
+
     if(records != null){
         const newRecords = [...records, userRecord];
-        localStorage.setItem('high-scores',JSON.stringify(newRecords));
+        const sortedRecords = sortHighScores(newRecords);
+        localStorage.setItem('high-scores',JSON.stringify(sortedRecords));
     }else{
         localStorage.setItem('high-scores', JSON.stringify([userRecord]));
     }
     //remove HighScoreForm after saving
     removeHighScoreForm();
+    ShowHighScoreList();
+}
+
+const sortHighScores = (values) => {
+    return values.sort((a, b) => parseFloat(b.score) - parseFloat(a.score));
 }
 
 const clearHighScores = () => {
-
+    clearLocalStoredHighScores();
+    rerenderHighScoreList();  
 }
 
 const clearLocalStoredHighScores = () => {
@@ -202,6 +219,23 @@ const removeHighScoreForm = () => {
     }   
 }
 
+const ShowHighScoreList = () => {
+    if(bHighScoreDisplayed || !bquizEnded) return;
+
+    createHighScoreList(getContent(),restartQuiz ,clearHighScores);
+
+    bHighScoreDisplayed = true;
+}
+
+const removeHighScoreList = () => {
+    const content = getContent();
+    const list = getHighScoreList();
+
+    if(content && list){
+        content.removeChild(list);
+    }  
+}
+
 const calculateScore  = () => {
     return currentTime * correctAnswers;
 }
@@ -212,22 +246,47 @@ const calculateScore  = () => {
 /*------------------------------------Quiz Main---------------------------------------------------*/
 
 
-const initialize = () => {
+export const initialize = () => {
     questionIndex = 0;
     correctAnswers = 0;
+    currentTime = 0;
+    bCanAnswer = true;
+    bquizEnded = true;
+    bHighScoreDisplayed = false;
 
-    resetTime();
-    updateTimerEl();
-    createQuizQuestion();
+    removeAllWidgets();
+    createQuizHeader(getHeader(), ShowHighScoreList);//temp remove all widgets, show high score
+    createQuizMenu(getContent(), startQuiz);
 }
 
 // called when start quiz button is clicked
 export const startQuiz = () => {
-    const header = document.getElementById('header');
-    initialize();
+    if(bHighScoreDisplayed){
+        removeHighScoreList();
+    }
+    bquizEnded = false;
+    removeQuizMenu();
     startTimer();
+    resetTime();
+    updateTimerEl();
+    createQuizQuestion();
+
+    setInterval(()=>{
+        console.log(`quiz ended: ${bquizEnded}`);
+    },100);
+
+}
+
+
+const removeAllWidgets = () => {
+    const content = getContent();
+    const header = getHeader();
+
+     content.innerHTML = "";
+     header.innerHTML = "";
 }
 
 const restartQuiz = () => {
-    location.reload();
+    //location.reload();
+    initialize();
 }
